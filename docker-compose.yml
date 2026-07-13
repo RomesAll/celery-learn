@@ -2,10 +2,18 @@ services:
   rabbitmq:
     image: rabbitmq:3-management
     container_name: rabbitmq
-    restart: unless-stopped
+    restart: on-failure
     ports:
       - "15672:15672"
       - "5672:5672"
     environment:
       RABBITMQ_DEFAULT_USER: admin
       RABBITMQ_DEFAULT_PASS: qwerty
+
+  cache:
+    image: redis:7
+    container_name: cache
+    restart: on-failure
+    ports:
+      - "6379:6379"
+    command: sh -c "redis-server --requirepass qwerty"
